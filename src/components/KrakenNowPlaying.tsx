@@ -6,23 +6,8 @@ import Podcast from "@/components/Podcast";
 import { averageColor, isPodcast, isTrack } from "@/lib/utils";
 import { css } from "@emotion/css";
 
-const stylesFn = (backgroundColor: string) => {
+const stylesFn = () => {
   return {
-    background: css`
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      z-index: inherit;
-      background-color: ${backgroundColor};
-      background-size: cover;
-      background-position: center center;
-      filter: blur(20px);
-      transform: scale(1.2);
-      // transition: background ease 2s; disabled for now
-    `,
-
     message: css`
       color: white;
       font-size: 2rem;
@@ -53,8 +38,7 @@ const KrakenNowPlaying: React.FC<{
     null
   );
   const imageRef = useRef<HTMLImageElement>(null);
-  const [backgroundColor, setBackgroundColor] = useState<string>("black");
-  const styles = stylesFn(backgroundColor);
+  const styles = stylesFn();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -63,7 +47,7 @@ const KrakenNowPlaying: React.FC<{
       }
       averageColor(imageRef.current, 1)
         .then((color) => {
-          setBackgroundColor(color);
+          // Update background color here if needed
         })
         .catch((err) => {
           console.error(err);
@@ -128,7 +112,6 @@ const KrakenNowPlaying: React.FC<{
           viewstate={viewstate}
         />
       )}
-      {nowPlaying && <div className={styles.background} />}
       {showMessage && !nowPlaying && (
         <p className={styles.message}>{showMessage}</p>
       )}
@@ -137,3 +120,4 @@ const KrakenNowPlaying: React.FC<{
 };
 
 export default KrakenNowPlaying;
+
